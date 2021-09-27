@@ -1,1 +1,11 @@
+What is WebXR?
+  API designed to access sensors and display of immersive hardware (VR, AR and Mixed Reality).
+  
+WebXR identifies what the user is looking at then rendering in WebGL (any other rendering library is compatible but for this project I have chosen OpenGL).
+WebXR aims to support existing devices but also paving a way for future devices.
 
+For the project the focus will be on Virtual Reality with an Oculus Rift as the main device which WebXR will access for sensors. (I also have access to a HTC Vive which could
+be interesting for compatability testing.)
+
+An alternate path is the use of smartphones for virtual reality. Devices exist where a user could place their phone inside the headset, this is a popular alternative due to the 
+demand for powerful hardware that traditional virtual reality headsets required.
