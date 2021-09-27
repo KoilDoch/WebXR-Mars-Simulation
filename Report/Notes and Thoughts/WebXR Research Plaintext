@@ -9,3 +9,12 @@ be interesting for compatability testing.)
 
 An alternate path is the use of smartphones for virtual reality. Devices exist where a user could place their phone inside the headset, this is a popular alternative due to the 
 demand for powerful hardware that traditional virtual reality headsets required.
+
+AR/Mixed Reality instead overlay the digital content over the surrounding areas, these are a more expensive option than the virtual reality headsets but are an interesting
+path.
+
+WebXR developed as a solution to the problem of WebVR only supporting traditional headset virtual reality which do not encompass the entire field. WebVR was deprecated and
+now has been replaced with WebXR.
+
+https://mixedreality.mozilla.org/hello-webxr/ <-- This site can demonstrate the capabilities of the WebXR technologies and gives ideas to the kind of things the project could 
+incorporate (see: xylaphone example), also note that even without a headset connected the site falls back to a traditional webpage.
