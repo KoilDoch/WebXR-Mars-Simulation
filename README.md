@@ -1,10 +1,10 @@
 # Creating an Interactive Mars Enviroment Using WebXR
 
 
-# Purpose
+## Purpose
 
-# Design/Methodology/Approach
+## Design/Methodology/Approach
 
-# Finding
+## Finding
 
-# Originality/Value
+## Originality/Value
