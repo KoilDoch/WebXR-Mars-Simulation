@@ -1,7 +1,7 @@
 import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
 import "@babylonjs/loaders/glTF";
-import {ArcRotateCamera, Color4, Engine, MeshBuilder, Scene, Vector3} from "@babylonjs/core";
+import {ArcRotateCamera, Color4, Engine, HemisphericLight, MeshBuilder, Scene, Vector3} from "@babylonjs/core";
 
 /**
  * This file sets up the scene for development
@@ -11,7 +11,8 @@ class App {
     private _canvas: HTMLCanvasElement;
     private _engine: Engine;
     private _scene: Scene;
-    private _viewport;
+    private _viewport: ArcRotateCamera;
+    private _lightSource: HemisphericLight;
 
     constructor() {
     
@@ -21,7 +22,8 @@ class App {
         // initialize babylon scene and engine
         this._engine = new Engine(this._canvas, true);
         this._scene = this.createScene();
-        this.setupArcCamera();
+        this._viewport = this.createArcCamera();
+        this._lightSource = this.createHemiLight();
 
         var box = this.createBox();
 
@@ -29,6 +31,16 @@ class App {
         this._engine.runRenderLoop( () => {
             this._scene.render();
         })
+    }
+
+    /**
+     * Sets up a new arc camera which is attached to the current scene
+     */
+     private createArcCamera() {
+        var camera = new ArcRotateCamera("ViewPort", Math.PI/4, Math.PI/3, 8, new Vector3(0, 0, 0), this._scene);
+        camera.attachControl(this._canvas, true);
+
+        return camera;
     }
 
     /**
@@ -55,6 +67,15 @@ class App {
         return canvas;
     }
 
+     /**
+     * Adds a hemispheric light to the scene
+     */
+    private createHemiLight() {
+        var light = new HemisphericLight("light", new Vector3(1, 1, 0), this._scene);
+
+        return light;
+    }
+
     /**
      * Creates a scecne object based on the current engine
      * @returns new scene
@@ -64,14 +85,6 @@ class App {
         scene.clearColor = new Color4(0, 0, 0, 1);  // set scene color to black
 
         return scene;
-    }
-
-    /**
-     * Sets up a new arc camera which is attached to the current scene
-     */
-    private setupArcCamera() {
-        this._viewport = new ArcRotateCamera("ViewPort", Math.PI/4, Math.PI/3, 8, new Vector3(0, 0, 0), this._scene);
-        this._viewport.attachControl(this._canvas, true);
     }
 }
 
