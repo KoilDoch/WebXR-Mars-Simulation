@@ -1,7 +1,7 @@
 import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
 import "@babylonjs/loaders/glTF";
-import {Color4, Engine, Scene} from "@babylonjs/core";
+import {Color4, Engine, MeshBuilder, Scene} from "@babylonjs/core";
 
 /**
  * This file sets up the scene for development
@@ -21,10 +21,22 @@ class App {
         var scene = new Scene(engine);
         scene.clearColor = new Color4(0, 0, 0, 1);
 
+        var box = this.createBox();
+
         // run the render loop
         engine.runRenderLoop( () => {
             scene.render();
         })
+    }
+
+    /**
+     * Creates a box mesh 
+     */
+    private createBox() {
+        var box = MeshBuilder.CreateBox("box", {});
+        box.position.x = 0.5;
+        box.position.y = 1;
+
     }
 }
 
