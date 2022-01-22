@@ -13,6 +13,7 @@ class App {
     private _scene: Scene;
     private _viewport: ArcRotateCamera;
     private _lightSource: HemisphericLight;
+    private _xr;
 
     constructor() {
     
@@ -83,6 +84,9 @@ class App {
     private createScene() {
         var scene = new Scene(this._engine);
         scene.clearColor = new Color4(0, 0, 0, 1);  // set scene color to black
+
+        // set up xr support
+        this._xr = scene.createDefaultXRExperienceAsync({});
 
         return scene;
     }
