@@ -1,7 +1,7 @@
 import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
 import "@babylonjs/loaders/glTF";
-import {Color4, Engine, MeshBuilder, Scene} from "@babylonjs/core";
+import {ArcRotateCamera, Color4, Engine, MeshBuilder, Scene, Vector3} from "@babylonjs/core";
 
 /**
  * This file sets up the scene for development
@@ -11,6 +11,7 @@ class App {
     private _canvas: HTMLCanvasElement;
     private _engine: Engine;
     private _scene: Scene;
+    private _viewport;
 
     constructor() {
     
@@ -20,6 +21,7 @@ class App {
         // initialize babylon scene and engine
         this._engine = new Engine(this._canvas, true);
         this._scene = this.createScene();
+        this.setupArcCamera();
 
         var box = this.createBox();
 
@@ -53,11 +55,23 @@ class App {
         return canvas;
     }
 
+    /**
+     * Creates a scecne object based on the current engine
+     * @returns new scene
+     */
     private createScene() {
         var scene = new Scene(this._engine);
-        scene.clearColor = new Color4(0, 0, 0, 1);
+        scene.clearColor = new Color4(0, 0, 0, 1);  // set scene color to black
 
         return scene;
+    }
+
+    /**
+     * Sets up a new arc camera which is attached to the current scene
+     */
+    private setupArcCamera() {
+        this._viewport = new ArcRotateCamera("ViewPort", Math.PI/4, Math.PI/3, 8, new Vector3(0, 0, 0), this._scene);
+        this._viewport.attachControl(this._canvas, true);
     }
 }
 
