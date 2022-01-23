@@ -23,7 +23,6 @@ class App {
         // initialize babylon scene and engine
         this._engine = new Engine(this._canvas, true);
         this._scene = this.createScene();
-        this._viewport = this.createArcCamera();
         this._lightSource = this.createHemiLight();
 
         var box = this.createBox();
@@ -84,6 +83,7 @@ class App {
     private createScene() {
         var scene = new Scene(this._engine);
         scene.clearColor = new Color4(0, 0, 0, 1);  // set scene color to black
+        this._viewport = this.createArcCamera();
 
         // set up xr support
         this._xr = scene.createDefaultXRExperienceAsync({});
