@@ -1,7 +1,7 @@
 import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
 import "@babylonjs/loaders/glTF";
-import {ArcRotateCamera, Color4, Engine, HemisphericLight, MeshBuilder, Scene, Vector3} from "@babylonjs/core";
+import {ArcRotateCamera, Color3, Color4, Engine, EnvironmentHelper, HemisphericLight, MeshBuilder, Scene, Vector3} from "@babylonjs/core";
 
 /**
  * This file sets up the scene for development
@@ -14,6 +14,7 @@ class App {
     private _viewport: ArcRotateCamera;
     private _lightSource: HemisphericLight;
     private _xr;
+    private _environment: EnvironmentHelper;
 
     constructor() {
     
@@ -83,10 +84,18 @@ class App {
     private createScene() {
         var scene = new Scene(this._engine);
         scene.clearColor = new Color4(0, 0, 0, 1);  // set scene color to black
-        this._viewport = this.createArcCamera();
+        this._viewport = this.createArcCamera();    // set up a camera for user to view
 
         // set up xr support
         this._xr = scene.createDefaultXRExperienceAsync({});
+
+        // set up the environment, ground and skybox
+        this._environment = scene.createDefaultEnvironment({
+            enableGroundMirror: true,
+            groundSize: 225,   // create a large environment
+            groundColor: new Color3(0.8, 0.5, 0.8), // sets the ground color to differentiate between skybox
+            skyboxSize: 225,
+        });
 
         return scene;
     }
