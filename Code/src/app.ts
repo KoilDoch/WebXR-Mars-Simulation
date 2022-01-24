@@ -1,7 +1,8 @@
 import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
 import "@babylonjs/loaders/glTF";
-import {ArcRotateCamera, Color3, Color4, Engine, EnvironmentHelper, HemisphericLight, MeshBuilder, Scene, Vector3} from "@babylonjs/core";
+import {ArcRotateCamera, Color3, Color4, Engine, HemisphericLight, MeshBuilder, Scene, Vector3} from "@babylonjs/core";
+import { Environment } from "./environment";
 
 /**
  * This file sets up the scene for development
@@ -14,7 +15,7 @@ class App {
     private _viewport: ArcRotateCamera;
     private _lightSource: HemisphericLight;
     private _xr;
-    private _environment: EnvironmentHelper;
+    private _environment;
 
     constructor() {
     
@@ -72,7 +73,7 @@ class App {
      * Adds a hemispheric light to the scene
      */
     private createHemiLight() {
-        var light = new HemisphericLight("light", new Vector3(1, 1, 0), this._scene);
+        var light = new HemisphericLight("light", new Vector3(10, 1, 0), this._scene);
 
         return light;
     }
@@ -89,13 +90,16 @@ class App {
         // set up xr support
         this._xr = scene.createDefaultXRExperienceAsync({});
 
-        // set up the environment, ground and skybox
-        this._environment = scene.createDefaultEnvironment({
-            enableGroundMirror: true,
-            groundSize: 225,   // create a large environment
-            groundColor: new Color3(0.8, 0.5, 0.8), // sets the ground color to differentiate between skybox
-            skyboxSize: 225,
-        });
+        // set up the environment
+        this._environment = new Environment(this._scene);
+        this._environment.loadGround();   // waits for a promise to return once the ground is loaded
+        // this._environment = scene.createDefaultEnvironment({
+        //     createGround: false,
+        //     // enableGroundMirror: true,
+        //     // groundSize: 225,   // create a large environment
+        //     // groundColor: new Color3(0.8, 0.5, 0.8), // sets the ground color to differentiate between skybox
+        //     skyboxSize: 225,
+        // });
 
         return scene;
     }
