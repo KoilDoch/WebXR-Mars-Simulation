@@ -103,7 +103,6 @@ class App {
 
         // set up the environment
         this._environment = new Environment(this._scene);
-        this._environment.loadGround();
         // this._environment = scene.createDefaultEnvironment({
         //     createGround: false,
         //     // enableGroundMirror: true,
