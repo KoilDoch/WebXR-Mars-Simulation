@@ -1,7 +1,8 @@
+window.CANNON = require('cannon');      // without this line it will not compile ¯\_(ツ)_/¯
 import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
 import "@babylonjs/loaders/glTF";
-import {ArcRotateCamera, Color3, Color4, Engine, HemisphericLight, MeshBuilder, Scene, Vector3} from "@babylonjs/core";
+import * as BABYLON from "@babylonjs/core";
 import { Environment } from "./environment";
 
 /**
@@ -10,23 +11,23 @@ import { Environment } from "./environment";
 
 class App {
     private _canvas: HTMLCanvasElement;
-    private _engine: Engine;
-    private _scene: Scene;
-    private _viewport: ArcRotateCamera;
-    private _lightSource: HemisphericLight;
+    private _engine: BABYLON.Engine;
+    private _scene: BABYLON.Scene;
+    private _viewport: BABYLON.ArcRotateCamera;
+    private _lightSource: BABYLON.HemisphericLight;
     private _xr;
     private _environment;
 
     constructor() {
-    
         // create a new canvas which will hold the scene
         this._canvas = this.createCanvas();
 
         // initialize babylon scene and engine
-        this._engine = new Engine(this._canvas, true);
+        this._engine = new BABYLON.Engine(this._canvas, true);
         this._scene = this.createScene();
         this._lightSource = this.createHemiLight();
 
+        // create a box to test the physics
         var box = this.createBox();
 
         // run the render loop
@@ -39,7 +40,7 @@ class App {
      * Sets up a new arc camera which is attached to the current scene
      */
      private createArcCamera() {
-        var camera = new ArcRotateCamera("ViewPort", Math.PI/4, Math.PI/3, 8, new Vector3(0, 0, 0), this._scene);
+        var camera = new BABYLON.ArcRotateCamera("ViewPort", Math.PI/4, Math.PI/3, 8, new BABYLON.Vector3(0, 0, 0), this._scene);
         camera.attachControl(this._canvas, true);
 
         return camera;
@@ -49,10 +50,14 @@ class App {
      * Creates a box mesh 
      */
     private createBox() {
-        var box = MeshBuilder.CreateBox("box", {});
-        box.position.x = 0.5;
-        box.position.y = 1;
+        var box = BABYLON.Mesh.CreateBox("box1", 4, this._scene);
+        box.position.y = 10;
+        box.physicsImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.BoxImpostor,
+            {
+                mass: 0.1, restitution: 0.2
+            }, this._scene);
 
+        return box;
     }
 
     /**
@@ -73,7 +78,7 @@ class App {
      * Adds a hemispheric light to the scene
      */
     private createHemiLight() {
-        var light = new HemisphericLight("light", new Vector3(10, 1, 0), this._scene);
+        var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(10, 1, 0), this._scene);
 
         return light;
     }
@@ -83,16 +88,22 @@ class App {
      * @returns new scene
      */
     private createScene() {
-        var scene = new Scene(this._engine);
-        scene.clearColor = new Color4(0, 0, 0, 1);  // set scene color to black
+        var scene = new BABYLON.Scene(this._engine);
+        scene.clearColor = new BABYLON.Color4(0, 0, 0, 1);  // set scene color to black
         this._viewport = this.createArcCamera();    // set up a camera for user to view
+
+        // set up the physics 
+        var gravityVector = new BABYLON.Vector3(0, -3.71, 0); // mars gravity is 3.71m/s to surface, earth is 9.81
+        var physicsPlugin = new BABYLON.CannonJSPlugin();
+
+        scene.enablePhysics(gravityVector, physicsPlugin);
 
         // set up xr support
         this._xr = scene.createDefaultXRExperienceAsync({});
 
         // set up the environment
         this._environment = new Environment(this._scene);
-        this._environment.loadGround();   // waits for a promise to return once the ground is loaded
+        this._environment.loadGround();
         // this._environment = scene.createDefaultEnvironment({
         //     createGround: false,
         //     // enableGroundMirror: true,
