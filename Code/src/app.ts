@@ -40,7 +40,7 @@ class App {
      * Sets up a new arc camera which is attached to the current scene
      */
      private createArcCamera() {
-        var camera = new BABYLON.ArcRotateCamera("ViewPort", Math.PI/4, Math.PI/3, 8, new BABYLON.Vector3(0, 0, 0), this._scene);
+        var camera = new BABYLON.ArcRotateCamera("ViewPort", Math.PI/4, Math.PI/3, 8, new BABYLON.Vector3(50, 50, 50), this._scene);
         camera.attachControl(this._canvas, true);
 
         return camera;
@@ -93,7 +93,7 @@ class App {
         this._viewport = this.createArcCamera();    // set up a camera for user to view
 
         // set up the physics 
-        var gravityVector = new BABYLON.Vector3(0, -3.71, 0); // mars gravity is 3.71m/s to surface, earth is 9.81
+        var gravityVector = new BABYLON.Vector3(0, -9.81, 0); // mars gravity is 3.71m/s to surface, earth is 9.81
         var physicsPlugin = new BABYLON.CannonJSPlugin();
 
         scene.enablePhysics(gravityVector, physicsPlugin);

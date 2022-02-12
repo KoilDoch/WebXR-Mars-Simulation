@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
+    "build": "rimraf ../docs && webpack && move dist ../docs",
     "start": "webpack-dev-server --port 8080"
   },
   "author": "Kyle Dick",
@@ -13,6 +13,7 @@
   "devDependencies": {
     "@babylonjs/inspector": "^4.2.1",
     "html-webpack-plugin": "^5.5.0",
+    "rimraf": "^3.0.2",
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.5",
     "webpack": "^5.67.0",
