@@ -3,8 +3,9 @@ import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
 import "@babylonjs/loaders/glTF";
 import * as BABYLON from "@babylonjs/core";
-import * as Enviroment from "./terrain";
-import * as ShapeFactory from "./shapes";
+import * as ENVIRONMENT from "./terrain";
+import * as SHAPEFACTORY from "./shapes";
+import * as XRSUPPORT from "./xr_controller";
 
 /**
  * This file sets up the scene for development
@@ -25,10 +26,6 @@ class App {
         this._engine = new BABYLON.Engine(this._canvas, true);
         this.createScene();
         this._lightSource = this.createHemiLight();
-
-        // create a box to test the physics
-        var box = ShapeFactory.createBox(this._scene);
-        var ball = ShapeFactory.createSphere(this._scene);
 
         // run the render loop
         this._engine.runRenderLoop( () => {
@@ -68,6 +65,14 @@ class App {
         return light;
     }
 
+    private setUpPhysics() {
+        //set up the physics 
+        var gravityVector = new BABYLON.Vector3(0, -9.81, 0); // mars gravity is 3.71m/s to surface, earth is 9.81
+        var physicsPlugin = new BABYLON.CannonJSPlugin();
+
+        this._scene.enablePhysics(gravityVector, physicsPlugin);
+    }
+
     /**
      * Creates a scecne object based on the current engine
      * @returns new scene
@@ -77,14 +82,13 @@ class App {
         this._scene.clearColor = new BABYLON.Color4(0, 0, 0, 1);  // set scene color to black
         this._viewport = this.createArcCamera();    // set up a camera for user to view
 
-        // set up the physics 
-        //var gravityVector = new BABYLON.Vector3(0, -9.81, 0); // mars gravity is 3.71m/s to surface, earth is 9.81
-        //var physicsPlugin = new BABYLON.CannonJSPlugin();
-
-        //this._scene.enablePhysics(gravityVector, physicsPlugin);
-
-        // create the ground
-        Enviroment.createGround(this._scene);
+        ENVIRONMENT.createPhysics(this._scene).then(async () => {
+            // create the ground
+            ENVIRONMENT.createGround(this._scene);
+            // create a box to test the physics
+            var box = SHAPEFACTORY.createBox(this._scene);
+            var ball = SHAPEFACTORY.createSphere(this._scene);
+        })
     }
 }
 

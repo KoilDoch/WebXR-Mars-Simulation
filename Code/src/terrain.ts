@@ -11,13 +11,18 @@ import heightMap from "./assets/SyrtisMajorHeightmap.png";
  *  - Skybox
  *  - Ground (height maps and such included)
  */
-export function createGround(scene){
-    this._scene = scene;
+export async function createGround(scene){
     // build the ground mesh from the Syrtis Major Map (3600x2500)
-    this._ground = BABYLON.MeshBuilder.CreateGroundFromHeightMap("ground",heightMap, 
-    {width: 3800, height: 2500, subdivisions: 1000, minHeight: -10, maxHeight: 10, onReady: () => {
+    var ground = BABYLON.MeshBuilder.CreateGroundFromHeightMap("ground",heightMap, 
+    {width: 1000, height: 1000, subdivisions: 1000, minHeight: 0, maxHeight: 20, updatable: false, onReady: () => {
         // call back once the mesh is constructed to create an imposter
-        this._ground.physicsImpostor = new BABYLON.PhysicsImpostor(this._ground, BABYLON.PhysicsImpostor.HeightmapImpostor);
-    }}, this._scene, );
+        ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.HeightmapImpostor, { mass: 0 });
+    }}, scene);
+}
 
+export async function createPhysics(scene) {
+    var gravityVector = new BABYLON.Vector3(0, -9.81, 0); // mars gravity is 3.71m/s to surface, earth is 9.81
+    var physicsPlugin = new BABYLON.CannonJSPlugin();
+
+    scene.enablePhysics(gravityVector, physicsPlugin);
 }
