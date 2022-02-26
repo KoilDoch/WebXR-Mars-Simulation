@@ -26,6 +26,8 @@ class App {
         // initialize babylon scene and engine
         this._engine = new BABYLON.Engine(this._canvas, true);
         this._scene = this.createScene();
+        this.createEnvironment();
+
         this._lightSource = this.createHemiLight();
 
         // run the render loop
@@ -75,18 +77,13 @@ class App {
     }
 
     private async createEnvironment() {
-        // var env = ENVIRONMENT.createPhysics(this._scene).then(async () => {
-        //     // create the ground
-        //     ENVIRONMENT.createGround(this._scene);
-        //     // create a box to test the physics
-        //     var box = SHAPEFACTORY.createBox(this._scene);
-        //     var ball = SHAPEFACTORY.createSphere(this._scene);
-        // })
-        var ground = BABYLON.MeshBuilder.CreateGround(
-            "ground",
-            {width: 10, height: 10},
-            this._scene
-        );
+        var env = ENVIRONMENT.createPhysics(this._scene).then(async () => {
+            // create the ground
+            ENVIRONMENT.createGround(this._scene);
+            // create a box to test the physics
+            var box = SHAPEFACTORY.createBox(this._scene);
+            var ball = SHAPEFACTORY.createSphere(this._scene);
+        })
     }
 
     /**
@@ -96,10 +93,7 @@ class App {
     private createScene(): BABYLON.Scene {
         var scene = new BABYLON.Scene(this._engine);
         scene.clearColor = new BABYLON.Color4(0, 0, 0, 1);  // set scene color to black
-
-        // create the controller and environment
-        CONTROLLER.createController();  
-        this.createEnvironment();
+        CONTROLLER.createController();
 
         // implement ability to lock pointer so first person view is easier to move
         scene.onPointerDown = (event) => {
