@@ -25,7 +25,7 @@ class App {
 
         // initialize babylon scene and engine
         this._engine = new BABYLON.Engine(this._canvas, true);
-        this.createScene();
+        this._scene = this.createScene();
         this._lightSource = this.createHemiLight();
 
         // run the render loop
@@ -74,16 +74,7 @@ class App {
         this._scene.enablePhysics(gravityVector, physicsPlugin);
     }
 
-    /**
-     * Creates a scecne object based on the current engine
-     * @returns new scene
-     */
-    private async createScene() {
-        this._scene = new BABYLON.Scene(this._engine);
-        this._scene.clearColor = new BABYLON.Color4(0, 0, 0, 1);  // set scene color to black
-        CONTROLLER.createController();
-        //this._viewport = this.createArcCamera();    // set up a camera for user to view
-
+    private async createEnvironment() {
         // var env = ENVIRONMENT.createPhysics(this._scene).then(async () => {
         //     // create the ground
         //     ENVIRONMENT.createGround(this._scene);
@@ -91,14 +82,43 @@ class App {
         //     var box = SHAPEFACTORY.createBox(this._scene);
         //     var ball = SHAPEFACTORY.createSphere(this._scene);
         // })
-
         var ground = BABYLON.MeshBuilder.CreateGround(
             "ground",
             {width: 10, height: 10},
             this._scene
         );
+    }
 
-        XRSUPPORT.initialiseXR(this._scene);
+    /**
+     * Creates a scecne object based on the current engine
+     * @returns new scene
+     */
+    private createScene(): BABYLON.Scene {
+        var scene = new BABYLON.Scene(this._engine);
+        scene.clearColor = new BABYLON.Color4(0, 0, 0, 1);  // set scene color to black
+
+        // create the controller and environment
+        CONTROLLER.createController();  
+        this.createEnvironment();
+
+        // implement ability to lock pointer so first person view is easier to move
+        scene.onPointerDown = (event) => {
+            switch(event.button){
+                case 0:
+                    console.log("click");
+                    this._engine.enterPointerlock();
+                    break;
+                case 1:
+                    this._engine.exitPointerlock();
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        XRSUPPORT.initialiseXR(scene);
+
+        return scene;
     }
 }
 
