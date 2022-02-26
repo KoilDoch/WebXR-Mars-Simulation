@@ -31,17 +31,22 @@ module.exports = {
         rules: [
             {
                 test: /\.tsx?$/,
-                use: "ts-loader",
-                exclude: /node_modules/,
+                use: ['ts-loader'],
+                exclude: /node_modules/
             },
-        ],
+            {
+                test: /\.(png|svg|jpg|jpeg|gif|ico)$/i,
+                use: ['file-loader']
+            }
+        ]
     },
     plugins: [
         new HtmlWebpackPlugin({
+            favicon: "src/assets/favicon.ico",
             inject: true,
             template: path.resolve(appDirectory,
-                "public/index.html"),
+                "public/index.html")
         })
     ],
-    mode: "development",
+    mode: "development"
 };

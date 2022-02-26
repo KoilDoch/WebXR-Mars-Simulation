@@ -3,7 +3,7 @@ import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
 import "@babylonjs/loaders/glTF";
 import * as BABYLON from "@babylonjs/core";
-import * as Enviroment from "./environment";
+import * as Enviroment from "./terrain";
 import * as ShapeFactory from "./shapes";
 
 /**
@@ -78,10 +78,10 @@ class App {
         this._viewport = this.createArcCamera();    // set up a camera for user to view
 
         // set up the physics 
-        var gravityVector = new BABYLON.Vector3(0, -9.81, 0); // mars gravity is 3.71m/s to surface, earth is 9.81
-        var physicsPlugin = new BABYLON.CannonJSPlugin();
+        //var gravityVector = new BABYLON.Vector3(0, -9.81, 0); // mars gravity is 3.71m/s to surface, earth is 9.81
+        //var physicsPlugin = new BABYLON.CannonJSPlugin();
 
-        this._scene.enablePhysics(gravityVector, physicsPlugin);
+        //this._scene.enablePhysics(gravityVector, physicsPlugin);
 
         // create the ground
         Enviroment.createGround(this._scene);
