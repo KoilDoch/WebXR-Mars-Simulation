@@ -23,10 +23,3 @@ export async function createGround(scene){
 
     return ground;
 }
-
-export async function createPhysics(scene) {
-    var gravityVector = new BABYLON.Vector3(0, -9.81, 0); // mars gravity is 3.71m/s to surface, earth is 9.81
-    var physicsPlugin = new BABYLON.CannonJSPlugin();
-
-    scene.enablePhysics(gravityVector, physicsPlugin);
-}

@@ -16,7 +16,7 @@ class App {
     private _canvas: HTMLCanvasElement;
     private _engine: BABYLON.Engine;
     private _scene: BABYLON.Scene;
-    private _viewport: BABYLON.ArcRotateCamera;
+    private _viewport: BABYLON.FreeCamera;
     private _lightSource: BABYLON.HemisphericLight;
 
     constructor() {
@@ -26,7 +26,8 @@ class App {
         // initialize babylon scene and engine
         this._engine = new BABYLON.Engine(this._canvas, true);
         this._scene = this.createScene();
-        this.createEnvironment();
+        // create the environment
+        this.createEnvironment(this._scene);
 
         this._lightSource = this.createHemiLight();
 
@@ -36,15 +37,6 @@ class App {
         })
     }
 
-    /**
-     * Sets up a new arc camera which is attached to the current scene
-     */
-     private createArcCamera() {
-        var camera = new BABYLON.ArcRotateCamera("ViewPort", Math.PI/4, Math.PI/3, 8, new BABYLON.Vector3(50, 50, 50), this._scene);
-        camera.attachControl(this._canvas, true);
-
-        return camera;
-    }
     /**
      * Creates a canvas html element then appends it to the scene.
      * @returns new canvas object
@@ -68,22 +60,27 @@ class App {
         return light;
     }
 
-    private setUpPhysics() {
-        //set up the physics 
-        var gravityVector = new BABYLON.Vector3(0, -9.81, 0); // mars gravity is 3.71m/s to surface, earth is 9.81
+    /**
+     * Create physics in the current scene
+     * @param scene 
+     */
+    private createPhysics(scene) {
+        var gravityVector = new BABYLON.Vector3(0, -3.71, 0); // mars gravity is 3.71m/s to surface, earth is 9.81
         var physicsPlugin = new BABYLON.CannonJSPlugin();
+        
+        scene.gravity = gravityVector;
+        scene.enablePhysics(scene.gravity, physicsPlugin);
 
-        this._scene.enablePhysics(gravityVector, physicsPlugin);
+        scene.collisionsEnabled = true;
+        scene.workerCollisions = true;
     }
 
-    private async createEnvironment() {
-        var env = ENVIRONMENT.createPhysics(this._scene).then(async () => {
-            // create the ground
-            ENVIRONMENT.createGround(this._scene);
-            // create a box to test the physics
-            var box = SHAPEFACTORY.createBox(this._scene);
-            var ball = SHAPEFACTORY.createSphere(this._scene);
-        })
+    private async createEnvironment(scene) {
+        ENVIRONMENT.createGround(scene);
+
+        // create objects requiring a physics imposter
+        var box = SHAPEFACTORY.createBox(scene);
+        var ball = SHAPEFACTORY.createSphere(scene);
     }
 
     /**
@@ -93,7 +90,9 @@ class App {
     private createScene(): BABYLON.Scene {
         var scene = new BABYLON.Scene(this._engine);
         scene.clearColor = new BABYLON.Color4(0, 0, 0, 1);  // set scene color to black
-        CONTROLLER.createController();
+        this.createPhysics(scene);
+        this._viewport = CONTROLLER.createController();
+        XRSUPPORT.initialiseXR(scene);
 
         // implement ability to lock pointer so first person view is easier to move
         scene.onPointerDown = (event) => {
@@ -110,7 +109,7 @@ class App {
             }
         }
         
-        XRSUPPORT.initialiseXR(scene);
+        
 
         return scene;
     }
