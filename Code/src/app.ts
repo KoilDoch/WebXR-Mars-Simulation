@@ -3,9 +3,10 @@ import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
 import "@babylonjs/loaders/glTF";
 import * as BABYLON from "@babylonjs/core";
-import * as ENVIRONMENT from "./terrain";
-import * as SHAPEFACTORY from "./shapes";
-import * as XRSUPPORT from "./xr_controller";
+import * as ENVIRONMENT from "./Environment";
+import * as SHAPEFACTORY from "./Shapes";
+import * as XRSUPPORT from "./XRController";
+import * as CONTROLLER from "./FirstPersonController";
 
 /**
  * This file sets up the scene for development
@@ -80,15 +81,24 @@ class App {
     private async createScene() {
         this._scene = new BABYLON.Scene(this._engine);
         this._scene.clearColor = new BABYLON.Color4(0, 0, 0, 1);  // set scene color to black
-        this._viewport = this.createArcCamera();    // set up a camera for user to view
+        CONTROLLER.createController();
+        //this._viewport = this.createArcCamera();    // set up a camera for user to view
 
-        ENVIRONMENT.createPhysics(this._scene).then(async () => {
-            // create the ground
-            ENVIRONMENT.createGround(this._scene);
-            // create a box to test the physics
-            var box = SHAPEFACTORY.createBox(this._scene);
-            var ball = SHAPEFACTORY.createSphere(this._scene);
-        })
+        // var env = ENVIRONMENT.createPhysics(this._scene).then(async () => {
+        //     // create the ground
+        //     ENVIRONMENT.createGround(this._scene);
+        //     // create a box to test the physics
+        //     var box = SHAPEFACTORY.createBox(this._scene);
+        //     var ball = SHAPEFACTORY.createSphere(this._scene);
+        // })
+
+        var ground = BABYLON.MeshBuilder.CreateGround(
+            "ground",
+            {width: 10, height: 10},
+            this._scene
+        );
+
+        XRSUPPORT.initialiseXR(this._scene);
     }
 }
 
