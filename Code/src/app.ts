@@ -65,14 +65,6 @@ class App {
      * @param scene 
      */
     private createPhysics(scene) {
-        var gravityVector = new BABYLON.Vector3(0, -3.71, 0); // mars gravity is 3.71m/s to surface, earth is 9.81
-        var physicsPlugin = new BABYLON.CannonJSPlugin();
-        
-        scene.gravity = gravityVector;
-        scene.enablePhysics(scene.gravity, physicsPlugin);
-
-        scene.collisionsEnabled = true;
-        scene.workerCollisions = true;
     }
 
     private async createEnvironment(scene) {
@@ -89,9 +81,20 @@ class App {
      */
     private createScene(): BABYLON.Scene {
         var scene = new BABYLON.Scene(this._engine);
+        scene.debugLayer.show({
+            embedMode: true,
+          });
         scene.clearColor = new BABYLON.Color4(0, 0, 0, 1);  // set scene color to black
-        this.createPhysics(scene);
-        this._viewport = CONTROLLER.createController();
+
+        var gravityVector = new BABYLON.Vector3(0, -3.71, 0); // mars gravity is 3.71m/s to surface, earth is 9.81
+        var physicsPlugin = new BABYLON.CannonJSPlugin();
+        
+        scene.gravity = new BABYLON.Vector3(0, -3.71 / 60 , 0);
+        scene.enablePhysics(gravityVector, physicsPlugin);
+
+        scene.collisionsEnabled = true;
+
+        this._viewport = CONTROLLER.createController(scene);
         XRSUPPORT.initialiseXR(scene);
 
         // implement ability to lock pointer so first person view is easier to move

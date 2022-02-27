@@ -14,6 +14,6 @@ export async function initialiseXR(scene) {
         alert("Your browser does not support XR content. Please enable to use the XR functionality.");
     }
 
-    // // create camera
-    // var xrCamera = new BABYLON.WebXRCamera("vr camera", scene, xr);
+    const xrCamera = new BABYLON.WebXRCamera("xrCamera", scene, xr);
+    xrCamera.setTransformationFromNonVRCamera();
 }
