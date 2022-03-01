@@ -18,6 +18,8 @@ class App {
     private _scene: BABYLON.Scene;
     private _viewport: BABYLON.FreeCamera;
     private _lightSource: BABYLON.HemisphericLight;
+    private _environment: BABYLON.EnvironmentHelper;
+    private _ground: BABYLON.GroundMesh;
 
     constructor() {
         // create a new canvas which will hold the scene
@@ -60,16 +62,11 @@ class App {
         return light;
     }
 
-    /**
-     * Create physics in the current scene
-     * @param scene 
-     */
-    private createPhysics(scene) {
-    }
-
     private async createEnvironment(scene) {
-        ENVIRONMENT.createGround(scene);
-
+        ENVIRONMENT.createGround(scene).then(res => {
+            this._ground = res;
+            XRSUPPORT.initialiseXR(scene, this._environment);
+        });
         // create objects requiring a physics imposter
         var box = SHAPEFACTORY.createBox(scene);
         var ball = SHAPEFACTORY.createSphere(scene);
@@ -80,22 +77,18 @@ class App {
      * @returns new scene
      */
     private createScene(): BABYLON.Scene {
+        // create the scene 
         var scene = new BABYLON.Scene(this._engine);
         scene.debugLayer.show({
             embedMode: true,
           });
-        scene.clearColor = new BABYLON.Color4(0, 0, 0, 1);  // set scene color to black
-
-        var gravityVector = new BABYLON.Vector3(0, -3.71, 0); // mars gravity is 3.71m/s to surface, earth is 9.81
-        var physicsPlugin = new BABYLON.CannonJSPlugin();
         
-        scene.gravity = new BABYLON.Vector3(0, -3.71 / 60 , 0);
-        scene.enablePhysics(gravityVector, physicsPlugin);
+        scene.clearColor = new BABYLON.Color4(0,0,0,1);
 
+        // enable collisions
         scene.collisionsEnabled = true;
-
+        // create the non-vr controller
         this._viewport = CONTROLLER.createController(scene);
-        XRSUPPORT.initialiseXR(scene);
 
         // implement ability to lock pointer so first person view is easier to move
         scene.onPointerDown = (event) => {
@@ -111,8 +104,15 @@ class App {
                     break;
             }
         }
+
+        // create the physics components
+        var gravityVector = new BABYLON.Vector3(0, -3.71, 0); // mars gravity is 3.71m/s to surface, earth is 9.81
+        var physicsPlugin = new BABYLON.CannonJSPlugin();
         
-        
+        // gravity is set to a value that accounts for the desired frame rate
+        // this allows smooth head movement
+        scene.gravity = new BABYLON.Vector3(0, -3.71 / 60 , 0);
+        scene.enablePhysics(gravityVector, physicsPlugin);
 
         return scene;
     }

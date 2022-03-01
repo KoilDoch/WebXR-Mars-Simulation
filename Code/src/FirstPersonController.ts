@@ -17,14 +17,5 @@ export function createController(scene) {
     camera.keysLeft.push(65);   // left [A]
     camera.keysRight.push(68);  // right [D]
 
-    var box = BABYLON.Mesh.CreateBox("box1", 4, scene);
-    box.position = new BABYLON.Vector3(0,30,0);
-    box.physicsImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.BoxImpostor,
-        {
-            mass: 0.1, restitution: 0.2
-        }, scene);
-
-    camera.parent = box;
-
     return camera;
 }
