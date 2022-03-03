@@ -1,5 +1,14 @@
 import * as BABYLON from "@babylonjs/core";
 
+/*
+*   Author: Kyle Dick
+*   Date of Last Edit: 02/03/2022
+*
+*   This file holds function for basic shape creation
+*
+*   This was created as a part of a 4th Year Disseration Project in Software Engineering with Heriot-Watt University.
+*/
+
 /**
  * Creates a box mesh 
  */

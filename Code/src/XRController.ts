@@ -1,8 +1,14 @@
 import * as BABYLON from "@babylonjs/core";
 
-/**
- * This file handles all interactions with xr
- */
+/*
+*   Author: Kyle Dick
+*   Date of Last Edit: 02/03/2022
+*
+*   This file handles all interactions with xr
+*
+*   This was created as a part of a 4th Year Disseration Project in Software Engineering with Heriot-Watt University.
+*/
+
 export async function initialiseXR(scene, floor) {
     // set up xr support
     try{

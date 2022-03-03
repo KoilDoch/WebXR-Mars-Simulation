@@ -29,20 +29,25 @@ module.exports = {
     },
     module: {
         rules: [
-            {
+            {   // import for the typescript files
                 test: /\.tsx?$/,
                 use: ['ts-loader'],
                 exclude: /node_modules/
             },
-            {
-                test: /\.(png|svg|jpg|jpeg|gif|ico)$/i,
+            {   // import for the image files
+                test: /\.(png|svg|jpg|jpeg|gif|ico|geojson)$/i,
                 use: ['file-loader']
+            },
+            {   // import for the json files
+                test: /\.(json|geojson)$/i,
+                use: ['json-loader']
             }
         ]
     },
     plugins: [
+        // injects the favicon import into final web page
         new HtmlWebpackPlugin({
-            favicon: "src/assets/favicon.ico",
+            favicon: "src/assets/images/favicon.ico",
             inject: true,
             template: path.resolve(appDirectory,
                 "public/index.html")

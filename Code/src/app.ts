@@ -1,4 +1,4 @@
-window.CANNON = require('cannon');      // without this line it will not compile ¯\_(ツ)_/¯
+window.CANNON = require('cannon');      // physics plugin from the window
 import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
 import "@babylonjs/loaders/glTF";
@@ -8,9 +8,15 @@ import * as SHAPEFACTORY from "./Shapes";
 import * as XRSUPPORT from "./XRController";
 import * as CONTROLLER from "./FirstPersonController";
 
-/**
- * This file sets up the scene for development
- */
+/*
+*   Author: Kyle Dick
+*   Date of Last Edit: 02/03/2022
+*
+*   This is the file which initiates the application and compiles the 
+*   functions from the rest of the project
+*
+*   This was created as a part of a 4th Year Disseration Project in Software Engineering with Heriot-Watt University.
+*/
 
 class App {
     private _canvas: HTMLCanvasElement;
