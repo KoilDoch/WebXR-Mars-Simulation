@@ -17,7 +17,7 @@ export function createController(scene) {
     camera.attachControl(true);
 
     camera.ellipsoid = new BABYLON.Vector3(1,1,1);
-    camera.applyGravity = true;
+    //camera.applyGravity = true;
     camera.checkCollisions = true;
     
     // controller inputs

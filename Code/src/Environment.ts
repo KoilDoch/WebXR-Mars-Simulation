@@ -25,35 +25,37 @@ export async function createEnvironment(scene){
 
 
     console.log(BABYLON);
-    var terrain;
+    let terrain;
 
-    var createTerrain = function(mapData, subX, subZ){
-        var options = {
-            terrainSub: 10,        // how many quads on each axis (100 x 100)
+    let createTerrain = function(mapData, subX, subZ){
+        let options = {
+            terrainSub: 500,        // how many quads on each axis (100 x 100)
             mapData: mapData,       // the data of each points
             mapSubX: subX, mapSubZ: subZ    // points per dimension
         };
     
         terrain = new DynamicTerrain("terrain", options, scene);
         terrain.createUVMap();
+        terrain.LODLimits = [4, 3, 2, 1, 1];    // set the level of detail to be higher for quads closer to camera
     
         console.log(terrain);
     };
 
     // create the data map
-    var mapWidth = 12288;
-    var mapHeight = 6144;
-    var nbPointsX = 2000;
-    var nbPointsY = 1000;
-    var hmOptions = {
+    let mapWidth = 12288;
+    let mapHeight = 6144;
+    let nbPointsX = 6000;
+    let nbPointsY = 3000;
+    let hmOptions = {
         width: mapWidth, height: mapHeight,     // map size as rendered in world
         subX: nbPointsX, subZ: nbPointsY,       // number of points on map width (subX) and map height (subZ)
+        minHeight: -100, maxHeight: 100,
         onReady: createTerrain           // callback function to render the map
     };
 
-    var mapData = new Float32Array(3072 * 1536 * 3);    // create array big enough to hold all the points
+    let mapData = new Float32Array(nbPointsX * nbPointsY * 3);    // create array big enough to hold all the points
                                                         // * 3 as this is a flat terrain holding x, y and z point
-                                                        DynamicTerrain.CreateMapFromHeightMapToRef(heightMap, hmOptions,
+DynamicTerrain.CreateMapFromHeightMapToRef(heightMap, hmOptions,
         mapData, scene);
 }
 
