@@ -10,7 +10,7 @@ import * as CONTROLLER from "./FirstPersonController";
 
 /*
 *   Author: Kyle Dick
-*   Date of Last Edit: 02/03/2022
+*   Date of Last Edit: 04/03/2022
 *
 *   This is the file which initiates the application and compiles the 
 *   functions from the rest of the project
@@ -19,7 +19,7 @@ import * as CONTROLLER from "./FirstPersonController";
 */
 
 class App {
-    private _canvas: HTMLCanvasElement;
+    private _canvas: HTMLCanvasElement;     // 
     private _engine: BABYLON.Engine;
     private _scene: BABYLON.Scene;
     private _viewport: BABYLON.FreeCamera;
@@ -69,8 +69,7 @@ class App {
     }
 
     private async createEnvironment(scene) {
-        ENVIRONMENT.createGround(scene).then(res => {
-            this._ground = res;
+        ENVIRONMENT.createEnvironment(scene).then(res => {
             XRSUPPORT.initialiseXR(scene, this._environment);
         });
         // create objects requiring a physics imposter
