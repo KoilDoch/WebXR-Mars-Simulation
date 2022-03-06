@@ -42,9 +42,10 @@ export async function createEnvironment(scene){
         terrain.createUVMap();
         terrain.LODLimits = [4];    // set the level of detail to be higher for quads closer to camera
 
+        // terrain material test
         terrain.mesh.material = terrainMaterial;
     
-        console.log(terrain);
+        console.log("terrain type: " + typeof(terrain.mesh));
     };
 
     // create the data map

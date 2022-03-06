@@ -6,6 +6,7 @@
 const path = require("path");
 const fs = require("fs");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const appDirectory = fs.realpathSync(process.cwd());
 
 module.exports = {
@@ -51,7 +52,13 @@ module.exports = {
             inject: true,
             template: path.resolve(appDirectory,
                 "public/index.html")
-        })
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                // copies the required babylon extension into the production folder
+              { from: "public/babylon.dynamicTerrain.min.js", to: "../dist" },
+            ],
+          })
     ],
     mode: "development"
 };
