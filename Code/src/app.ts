@@ -84,12 +84,13 @@ class App {
     private createScene(): BABYLON.Scene {
         // create the scene 
         var scene = new BABYLON.Scene(this._engine);
-        scene.debugLayer.show({
-            embedMode: true,
-          });
-        
         scene.clearColor = new BABYLON.Color4(0,0,0,1);
 
+        // inspector window
+        // scene.debugLayer.show({
+        //     embedMode: true,
+        //   });
+        
         // enable collisions
         scene.collisionsEnabled = true;
         // create the non-vr controller
