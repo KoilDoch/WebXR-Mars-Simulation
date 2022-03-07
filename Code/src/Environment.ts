@@ -33,7 +33,7 @@ export async function createEnvironment(scene){
 
     let createTerrain = function(mapData, subX, subZ){
         let options = {
-            terrainSub: 500,        // how many quads on each axis (100 x 100)
+            terrainSub: 100,        // how many quads on each axis (100 x 100)
             mapData: mapData,       // the data of each points
             mapSubX: subX, mapSubZ: subZ    // points per dimension
         };
