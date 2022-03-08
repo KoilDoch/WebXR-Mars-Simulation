@@ -1,7 +1,7 @@
 // import * as BABYLON from "@babylonjs/core";
 // dynamic terrain extension used to generate the ground mesh
 import heightMap from "./assets/images/MarsHeightMap.jpg";
-import texture from "./assets/images/red.png";
+import texture from "./assets/images/marsSurface.png";
 import DynamicTerrain from './Terrain';
 //const geoDataURL = 'https://opmbuilder.carto.com:443/api/v2/sql?q=select * from opmbuilder.opm_499_mars_quadrangles';
 /*
@@ -23,11 +23,6 @@ import DynamicTerrain from './Terrain';
  */
 
 export async function createEnvironment(scene){
-    var terrainTexture = new BABYLON['Texture'](texture, scene);
-    
-    var terrainMaterial = new BABYLON['StandardMaterial']("tm", scene);
-    terrainMaterial.diffuseTexture = terrainTexture;
-
     console.log(BABYLON);
     let terrain;
 
@@ -40,12 +35,18 @@ export async function createEnvironment(scene){
     
         terrain = new DynamicTerrain("terrain", options, scene);
         terrain.createUVMap();
-        terrain.LODLimits = [4];    // set the level of detail to be higher for quads closer to camera
+        //terrain.LODLimits = [4];    // set the level of detail to be higher for quads closer to camera
 
-        // terrain material test
+        // terrain texture and material
+        var terrainTexture = new BABYLON['Texture'](texture, scene);
+        terrainTexture.uScale = 4.0;
+        terrainTexture.vScale = terrainTexture.uScale;
+
+        var terrainMaterial = new BABYLON['StandardMaterial']("material", scene);
+        terrainMaterial.diffuseTexture = terrainTexture;
         terrain.mesh.material = terrainMaterial;
     
-        console.log("terrain type: " + typeof(terrain.mesh));
+        console.log(terrain);
     };
 
     // create the data map
