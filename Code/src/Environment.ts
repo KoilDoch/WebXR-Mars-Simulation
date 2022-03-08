@@ -1,20 +1,15 @@
-// import * as BABYLON from "@babylonjs/core";
-// dynamic terrain extension used to generate the ground mesh
 import heightMap from "./assets/images/MarsHeightMap.jpg";
 import texture from "./assets/images/marsSurface.png";
 import DynamicTerrain from './Terrain';
-//const geoDataURL = 'https://opmbuilder.carto.com:443/api/v2/sql?q=select * from opmbuilder.opm_499_mars_quadrangles';
 /*
 *   Author: Kyle Dick
-*   Date of Last Edit: 0/03/2022
+*   Date of Last Edit: 08/03/2022
 *
 *   This file manages the environment of the application.
 *   This includes the processing of the information from real world data
 *
 *   This was created as a part of a 4th Year Disseration Project in Software Engineering with Heriot-Watt University.
 */
-
-
 
 /**
  * Creates a floor mesh using data from a selected heightmap
@@ -46,6 +41,7 @@ export async function createEnvironment(scene){
         terrainMaterial.diffuseTexture = terrainTexture;
         terrain.mesh.material = terrainMaterial;
     
+        
         console.log(terrain);
     };
 
@@ -57,7 +53,7 @@ export async function createEnvironment(scene){
     let hmOptions = {
         width: mapWidth, height: mapHeight,     // map size as rendered in world
         subX: nbPointsX, subZ: nbPointsY,       // number of points on map width (subX) and map height (subZ)
-        minHeight: -100, maxHeight: 100,
+        minHeight: -500, maxHeight: 500,
         onReady: createTerrain           // callback function to render the map
     };
 

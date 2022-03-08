@@ -2,7 +2,7 @@ import * as BABYLON from "@babylonjs/core";
 
 /*
 *   Author: Kyle Dick
-*   Date of Last Edit: 02/03/2022
+*   Date of Last Edit: 08/03/2022
 *
 *   This file handles all interactions with xr
 *
