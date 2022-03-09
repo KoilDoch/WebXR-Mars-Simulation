@@ -1,5 +1,6 @@
-import {CannonJSPlugin, Color4, Engine, HemisphericLight, Scene, Vector3} from "@babylonjs/core";
+import {CannonJSPlugin, Color4, Engine, HemisphericLight, Mesh, Scene, Vector3} from "@babylonjs/core";
 import { CreateEnvironment } from "./Environment";
+import { InitialiseXR } from "./XRController";
 
 /*
 *   Author: Kyle Dick
@@ -15,8 +16,8 @@ export class BasicScene {
     scene : Scene;
     engine: Engine;
     light: HemisphericLight;
+    terrain: Mesh
 
-   
    /**
     * Constructor for the BasicScene class
     */
@@ -46,6 +47,8 @@ export class BasicScene {
         this.InitialisePhysics(new Vector3(0,-3.71, 0), new CannonJSPlugin());
         // create the terrain
         this.CreateGround();
+        // create XR default experience
+        //InitialiseXR(this.scene);
     }
 
     /**
@@ -65,7 +68,9 @@ export class BasicScene {
     }
 
     private async CreateGround() {
-        const terrain = await CreateEnvironment(this.scene);
+        const dynamicTerrain = await CreateEnvironment(this.scene);
+        console.log(dynamicTerrain);
+        //this.terrain = dynamicTerrain.mesh;
     }
 
     /**

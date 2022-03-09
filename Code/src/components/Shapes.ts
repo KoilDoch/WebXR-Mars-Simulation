@@ -2,7 +2,7 @@ import * as BABYLON from "@babylonjs/core";
 
 /*
 *   Author: Kyle Dick
-*   Date of Last Edit: 02/03/2022
+*   Date of Last Edit: 08/03/2022
 *
 *   This file holds function for basic shape creation
 *
@@ -12,7 +12,7 @@ import * as BABYLON from "@babylonjs/core";
 /**
  * Creates a box mesh 
  */
-export function createBox(scene) {
+export function CreateBox(scene) {
 var box = BABYLON.Mesh.CreateBox("box1", 4, scene);
 box.position = new BABYLON.Vector3(10,50,10);
 box.physicsImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.BoxImpostor,
@@ -26,7 +26,7 @@ return box;
 /**
  * Creates a sphere mesh 
  */
-export function  createSphere(scene) {
+export function CreateSphere(scene) {
     var ball = BABYLON.Mesh.CreateSphere("sphere", 10, 10, scene);
     ball.position.y = 50;
     ball.position.x = 50;

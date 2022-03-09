@@ -3,9 +3,9 @@ import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
 import "@babylonjs/loaders/glTF";
 import { BasicScene } from "./components/BasicScene";
-import * as BABYLON from "@babylonjs/core";
-import { createController } from "./components/FirstPersonController";
-import * as LOADINGSCREEN from "./components/LoadingScreen";
+import { CreateController } from "./components/FirstPersonController";
+import { LoadingScreen } from "./components/LoadingScreen";
+import { CreateBox, CreateSphere } from "./components/Shapes";
 
 /*
 *   Author: Kyle Dick
@@ -23,15 +23,17 @@ class App {
 
     constructor() {
         // start loading while the app loads
-        var initialLoadScreen = this.startLoading("Generating World");
+        var initialLoadScreen = this.StartLoading("Generating World");
         // create a new canvas which will hold the scene
         this.canvas = this.createCanvas();
         // create the scene
         this.basicScene = new BasicScene(this.canvas);
         // create camera controller for first person
-        createController(this.basicScene.scene);
+        CreateController(this.basicScene.scene);
+        // create some objects to test physics
+        this.CreateObjectsInScene();
         // loading finished
-        initialLoadScreen.hideLoadingScreen();
+        initialLoadScreen.HideLoadingScreen();
     }
 
     /**
@@ -52,10 +54,15 @@ class App {
      * @param text 
      * @returns 
      */
-    private startLoading(text : string) : LOADINGSCREEN.LoadingScreen {
-        var loadingscreen = new LOADINGSCREEN.LoadingScreen(text);
-        loadingscreen.displayLoadingScreen();
+    private StartLoading(text : string) : LoadingScreen {
+        var loadingscreen = new LoadingScreen(text);
+        loadingscreen.DisplayLoadingScreen();
         return loadingscreen;
+    }
+
+    private CreateObjectsInScene() {
+        CreateBox(this.basicScene.scene);
+        CreateSphere(this.basicScene.scene);
     }
 }
 

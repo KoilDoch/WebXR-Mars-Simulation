@@ -9,7 +9,7 @@ import * as BABYLON from "@babylonjs/core";
 *   This was created as a part of a 4th Year Disseration Project in Software Engineering with Heriot-Watt University.
 */
 
-export function createController(scene) {
+export function CreateController(scene) {
     console.log(scene);
     // create a camera for the first person view
     const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0,30,0), scene);

@@ -9,20 +9,20 @@
 
 interface ILoadingScreen {
     // while loading in process
-    displayLoadingScreen: () => void;
+    DisplayLoadingScreen: () => void;
     // when loading is done
-    hideLoadingScreen: () => void;
+    HideLoadingScreen: () => void;
 }
 
 export class LoadingScreen implements ILoadingScreen {
 
     constructor(public LoadingUIText: string) {}
 
-    public displayLoadingScreen() {
+    public DisplayLoadingScreen() {
         alert(this.LoadingUIText);
     }
 
-    public hideLoadingScreen() {
+    public HideLoadingScreen() {
         alert("loaded");
     }
 }

@@ -9,7 +9,7 @@ import * as BABYLON from "@babylonjs/core";
 *   This was created as a part of a 4th Year Disseration Project in Software Engineering with Heriot-Watt University.
 */
 
-export async function initialiseXR(scene, floor) {
+export async function InitialiseXR(scene, floor) {
     try{
         const xr = await scene.createDefaultXRExperienceAsync({
             floorMeshes: [floor],
