@@ -1,6 +1,7 @@
 import {CannonJSPlugin, Color4, Engine, HemisphericLight, Mesh, Scene, Vector3} from "@babylonjs/core";
 import { CreateEnvironment } from "./Environment";
 import { InitialiseXR } from "./XRController";
+import { LoadingScreen } from "./LoadingScreen";
 
 /*
 *   Author: Kyle Dick
@@ -16,7 +17,8 @@ export class BasicScene {
     scene : Scene;
     engine: Engine;
     light: HemisphericLight;
-    terrain: Mesh
+    terrain;
+    initialLoadScreen : LoadingScreen;
 
    /**
     * Constructor for the BasicScene class
@@ -25,7 +27,6 @@ export class BasicScene {
         // true param == antialiasing for smooth edges
         this.engine = new Engine(canvas, true);
         this.CreateScene();
-
         // render loop
         this.engine.runRenderLoop(() => {
             this.scene.render();
@@ -37,6 +38,9 @@ export class BasicScene {
      * @returns Newly created Scene object
      */
     private CreateScene() {
+        // display load screen while the app loads
+        this.initialLoadScreen = this.StartLoading("Generating World");
+
         // local var to hold new scene object
         this.scene = new Scene(this.engine);
         // add light to scene
@@ -68,9 +72,11 @@ export class BasicScene {
     }
 
     private async CreateGround() {
-        const dynamicTerrain = await CreateEnvironment(this.scene);
+        let dynamicTerrain = await CreateEnvironment(this.scene);
         console.log(dynamicTerrain);
-        //this.terrain = dynamicTerrain.mesh;
+        // loading finished
+        this.initialLoadScreen.HideLoadingScreen();
+        //this.terrain = dynamicTerrain.terrain;
     }
 
     /**
@@ -115,5 +121,16 @@ export class BasicScene {
                     break;
             }
         }
+    }
+
+    /**
+     * Creates a new loading screen with the desired text
+     * @param text 
+     * @returns 
+     */
+     private StartLoading(text : string) : LoadingScreen {
+        var loadingscreen = new LoadingScreen(text);
+        loadingscreen.DisplayLoadingScreen();
+        return loadingscreen;
     }
 }

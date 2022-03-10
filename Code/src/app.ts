@@ -4,7 +4,6 @@ import "@babylonjs/inspector";
 import "@babylonjs/loaders/glTF";
 import { BasicScene } from "./components/BasicScene";
 import { CreateController } from "./components/FirstPersonController";
-import { LoadingScreen } from "./components/LoadingScreen";
 import { CreateBox, CreateSphere } from "./components/Shapes";
 
 /*
@@ -22,8 +21,6 @@ class App {
     basicScene: BasicScene;
 
     constructor() {
-        // start loading while the app loads
-        var initialLoadScreen = this.StartLoading("Generating World");
         // create a new canvas which will hold the scene
         this.canvas = this.createCanvas();
         // create the scene
@@ -32,8 +29,6 @@ class App {
         CreateController(this.basicScene.scene);
         // create some objects to test physics
         this.CreateObjectsInScene();
-        // loading finished
-        initialLoadScreen.HideLoadingScreen();
     }
 
     /**
@@ -47,17 +42,6 @@ class App {
         canvas.id = "mainCanvas";
         document.body.appendChild(canvas);
         return canvas;
-    }
-
-    /**
-     * Creates a new loading screen with the desired text
-     * @param text 
-     * @returns 
-     */
-    private StartLoading(text : string) : LoadingScreen {
-        var loadingscreen = new LoadingScreen(text);
-        loadingscreen.DisplayLoadingScreen();
-        return loadingscreen;
     }
 
     private CreateObjectsInScene() {
