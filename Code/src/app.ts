@@ -5,6 +5,7 @@ import "@babylonjs/loaders/glTF";
 import { BasicScene } from "./components/BasicScene";
 import { CreateController } from "./components/FirstPersonController";
 import { CreateBox, CreateSphere } from "./components/Shapes";
+import { InitialiseXR } from "./components/XRController";
 
 /*
 *   Author: Kyle Dick
@@ -29,6 +30,8 @@ class App {
         CreateController(this.basicScene.scene);
         // create some objects to test physics
         this.CreateObjectsInScene();
+        // initialise XR support
+        InitialiseXR(this.basicScene.scene, this.basicScene.ground);
     }
 
     /**
@@ -37,8 +40,8 @@ class App {
      */
     private createCanvas() {
         var canvas = document.createElement("canvas");
-        canvas.style.width = "50%";    // make the canvas fit the entire screen
-        canvas.style.height = "50%";
+        canvas.style.width = "100%";    // make the canvas fit the entire screen
+        canvas.style.height = "100%";
         canvas.id = "mainCanvas";
         document.body.appendChild(canvas);
         return canvas;

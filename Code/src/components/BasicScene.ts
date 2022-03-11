@@ -1,7 +1,8 @@
-import {CannonJSPlugin, Color4, Engine, HemisphericLight, Mesh, Scene, Vector3} from "@babylonjs/core";
+import {CannonJSPlugin, Color4, Engine, HemisphericLight, Mesh, PhysicsImpostor, Scene, Vector3} from "@babylonjs/core";
 import { CreateEnvironment } from "./Environment";
 import { InitialiseXR } from "./XRController";
 import { LoadingScreen } from "./LoadingScreen";
+import DynamicTerrain from './Terrain';
 
 /*
 *   Author: Kyle Dick
@@ -17,7 +18,7 @@ export class BasicScene {
     scene : Scene;
     engine: Engine;
     light: HemisphericLight;
-    terrain;
+    ground : Mesh;
     initialLoadScreen : LoadingScreen;
 
    /**
@@ -48,7 +49,7 @@ export class BasicScene {
         // assign options
         this.SceneOptions();
         // add physics
-        this.InitialisePhysics(new Vector3(0,-3.71, 0), new CannonJSPlugin());
+        this.InitialisePhysics(new CannonJSPlugin());
         // create the terrain
         this.CreateGround();
         // create XR default experience
@@ -72,11 +73,10 @@ export class BasicScene {
     }
 
     private async CreateGround() {
-        let dynamicTerrain = await CreateEnvironment(this.scene);
-        console.log(dynamicTerrain);
+        let terrain : Object = await CreateEnvironment(this.scene);
+        this.ground = terrain['mesh'];
         // loading finished
         this.initialLoadScreen.HideLoadingScreen();
-        //this.terrain = dynamicTerrain.terrain;
     }
 
     /**
@@ -84,11 +84,14 @@ export class BasicScene {
      * @param gravityVector The direction and velocity of gravity
      * @param physicsPlugin cannonjs physics plugin
      */
-    private InitialisePhysics(gravityVector : Vector3, physicsPlugin : CannonJSPlugin) {
+    private InitialisePhysics(physicsPlugin : CannonJSPlugin) {
         // gravity is set to a value that accounts for the desired frame rate
+        let framesPerSecond = 60;
+        let gravity = -3.71;
         // this allows smooth head movement
-        this.scene.gravity = gravityVector;
-        this.scene.enablePhysics(gravityVector, physicsPlugin);
+        this.scene.gravity = new Vector3(0, gravity / framesPerSecond, 0);
+        this.scene.collisionsEnabled = true;
+        //this.scene.enablePhysics(new Vector3(0,-3.71 / 60, 0), physicsPlugin);
     }
 
     /**

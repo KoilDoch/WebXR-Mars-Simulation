@@ -10,6 +10,7 @@ import * as BABYLON from "@babylonjs/core";
 */
 
 export async function InitialiseXR(scene, floor) {
+    console.log("XRRRR");
     try{
         const xr = await scene.createDefaultXRExperienceAsync({
             floorMeshes: [floor],

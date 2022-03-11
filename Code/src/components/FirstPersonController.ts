@@ -1,4 +1,4 @@
-import * as BABYLON from "@babylonjs/core";
+import { FreeCamera , Vector3 } from "@babylonjs/core";
 
 /*
 *   Author: Kyle Dick
@@ -10,22 +10,21 @@ import * as BABYLON from "@babylonjs/core";
 */
 
 export function CreateController(scene) {
-    console.log(scene);
     // create a camera for the first person view
-    const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0,30,0), scene);
+    const camera = new FreeCamera("FreeCamera", new Vector3(0,30,0), scene);
 
-    // give control to the inputs to this camera
-    camera.attachControl(true);
-
-    camera.ellipsoid = new BABYLON.Vector3(1,1,1);
-    //camera.applyGravity = true;
+    camera.applyGravity = true;
     camera.checkCollisions = true;
+    //camera.ellipsoid = new Vector3(1,1,1);
     
     // controller inputs
     camera.keysUp.push(87);     // forward [W]
     camera.keysDown.push(83);   // backwards [S}]
     camera.keysLeft.push(65);   // left [A]
     camera.keysRight.push(68);  // right [D]
+
+    // give control to the inputs to this camera
+    camera.attachControl(true);
 
     return camera;
 }

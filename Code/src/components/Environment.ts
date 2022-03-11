@@ -1,3 +1,4 @@
+import {PhysicsImpostor} from "@babylonjs/core";
 import heightMap from "../assets/images/SyrtisMajorHeightMap.png";
 import texture from "../assets/images/marsSurface.png";
 import DynamicTerrain from './Terrain';
@@ -39,6 +40,9 @@ export async function CreateEnvironment(scene){
             var terrainMaterial = new BABYLON['StandardMaterial']("material", scene);
             terrainMaterial.diffuseTexture = terrainTexture;
             terrain.mesh.material = terrainMaterial;
+
+            // create physics imposter
+            terrain.mesh.checkCollisions = true;
 
             resolve(terrain);
         };

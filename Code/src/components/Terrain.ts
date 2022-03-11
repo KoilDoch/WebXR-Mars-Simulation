@@ -1,6 +1,6 @@
 /*
 *   Author: Kyle Dick
-*   Date of Last Edit: 08/03/2022
+*   Date of Last Edit: 09/03/2022
 *
 *   This file provides shorthands for babylon components to be used elsewhere
 *   e.g. with this instead of using BABYLON['DynamicTerrain] it can instead be imported and used as DynamicTerrain
