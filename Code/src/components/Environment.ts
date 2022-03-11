@@ -44,6 +44,12 @@ export async function CreateEnvironment(scene){
             // create physics imposter
             terrain.mesh.checkCollisions = true;
 
+            // update how the camera LOD is calculated
+            // using the camera height, more of the terrain is shown as higher altitudes but at a lower quality
+            terrain.updateCameraLOD = (terrainCam) => {
+                return  Math.abs((terrainCam.globalPosition.y / 16.0) | 0);
+            }
+
             resolve(terrain);
         };
 

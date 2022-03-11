@@ -5,7 +5,7 @@ import "@babylonjs/loaders/glTF";
 import { BasicScene } from "./components/BasicScene";
 import { CreateController } from "./components/FirstPersonController";
 import { CreateBox, CreateSphere } from "./components/Shapes";
-import { InitialiseXR } from "./components/XRController";
+import { XRSetup } from "./components/XRSupport";
 
 /*
 *   Author: Kyle Dick
@@ -31,7 +31,7 @@ class App {
         // create some objects to test physics
         this.CreateObjectsInScene();
         // initialise XR support
-        InitialiseXR(this.basicScene.scene, this.basicScene.ground);
+        XRSetup(this.basicScene.scene, this.basicScene.ground);
     }
 
     /**

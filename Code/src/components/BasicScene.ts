@@ -1,8 +1,6 @@
 import {CannonJSPlugin, Color4, Engine, HemisphericLight, Mesh, PhysicsImpostor, Scene, Vector3} from "@babylonjs/core";
 import { CreateEnvironment } from "./Environment";
-import { InitialiseXR } from "./XRController";
 import { LoadingScreen } from "./LoadingScreen";
-import DynamicTerrain from './Terrain';
 
 /*
 *   Author: Kyle Dick
@@ -52,8 +50,6 @@ export class BasicScene {
         this.InitialisePhysics(new CannonJSPlugin());
         // create the terrain
         this.CreateGround();
-        // create XR default experience
-        //InitialiseXR(this.scene);
     }
 
     /**
