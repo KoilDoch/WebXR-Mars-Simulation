@@ -41,6 +41,7 @@ export class BasicScene {
      * @returns Newly created Scene object
      */
     private CreateScene() {
+        console.log("1.0.1");
         // display load screen while the app loads
         this.initialLoadScreen = this.StartLoading("Generating World");
 
