@@ -3,9 +3,7 @@ import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
 import "@babylonjs/loaders/glTF";
 import { BasicScene } from "./components/BasicScene";
-import { CreateController } from "./components/FirstPersonController";
 import { CreateBox, CreateSphere } from "./components/Shapes";
-import { XRSetup } from "./components/XRSupport";
 
 /*
 *   Author: Kyle Dick
@@ -20,18 +18,14 @@ import { XRSetup } from "./components/XRSupport";
 class App {
     canvas: HTMLCanvasElement;
     basicScene: BasicScene;
-
+    
     constructor() {
         // create a new canvas which will hold the scene
         this.canvas = this.createCanvas();
         // create the scene
         this.basicScene = new BasicScene(this.canvas);
-        // create camera controller for first person
-        CreateController(this.basicScene.scene);
         // create some objects to test physics
         this.CreateObjectsInScene();
-        // initialise XR support
-        XRSetup(this.basicScene.scene, this.basicScene.ground);
     }
 
     /**

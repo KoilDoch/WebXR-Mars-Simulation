@@ -15,13 +15,18 @@ import {PhysicsImpostor, WebXRFeatureName} from "@babylonjs/core";
  * @param floor a mesh which represents the ground of the environment 
  */
 export async function XRSetup(scene, floor) {
-    console.log("XRRRR");
+    
     try{
         const xr = await scene.createDefaultXRExperienceAsync({
             floorMeshes: [floor],
         });
 
-        console.log(xr);
+        
+
+        return new Promise((res) => {
+            
+            res(xr);
+        });
     } catch (e) {
         console.log(e);
         alert("Your browser does not support XR content. Please enable to use the XR functionality.");
@@ -44,8 +49,4 @@ export function EnableXRPhysics(xrHelper) {
         },
         enableHeadsetImpostor: true
     });
-}
-
-export function AttachController() {
-    
 }

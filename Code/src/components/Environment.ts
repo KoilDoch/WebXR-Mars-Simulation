@@ -43,7 +43,6 @@ export async function CreateEnvironment(scene){
 
             // create physics imposter
             terrain.mesh.checkCollisions = true;
-
             // update how the camera LOD is calculated
             // using the camera height, more of the terrain is shown as higher altitudes but at a lower quality
             terrain.updateCameraLOD = (terrainCam) => {
@@ -61,7 +60,7 @@ export async function CreateEnvironment(scene){
         let hmOptions = {
             width: mapWidth, height: mapHeight,     // map size as rendered in world
             subX: nbPointsX, subZ: nbPointsY,       // number of points on map width (subX) and map height (subZ)
-            minHeight: -100, maxHeight: 100,
+            minHeight: -125, maxHeight: 125,
             onReady: createTerrain           // callback function to render the map
         };
 
@@ -70,5 +69,4 @@ export async function CreateEnvironment(scene){
         DynamicTerrain.CreateMapFromHeightMapToRef(heightMap, hmOptions,
             mapData, scene);
         });
-
 }

@@ -1,6 +1,8 @@
-import {CannonJSPlugin, Color4, Engine, HemisphericLight, Mesh, PhysicsImpostor, Scene, Vector3} from "@babylonjs/core";
+import {CannonJSPlugin, Color4, Engine, HemisphericLight, Mesh, PhysicsImpostor, Scene, Vector3, WebXRDefaultExperience} from "@babylonjs/core";
 import { CreateEnvironment } from "./Environment";
 import { LoadingScreen } from "./LoadingScreen";
+import { XRSetup } from "./XRSupport";
+import { CreateController } from "./FirstPersonController";
 
 /*
 *   Author: Kyle Dick
@@ -16,8 +18,10 @@ export class BasicScene {
     scene : Scene;
     engine: Engine;
     light: HemisphericLight;
+    terrain;
     ground : Mesh;
     initialLoadScreen : LoadingScreen;
+    xrSupport;
 
    /**
     * Constructor for the BasicScene class
@@ -42,6 +46,8 @@ export class BasicScene {
 
         // local var to hold new scene object
         this.scene = new Scene(this.engine);
+        // create camera controller for first person
+        CreateController(this.scene);
         // add light to scene
         this.CreateHemiLight();
         // assign options
@@ -50,6 +56,8 @@ export class BasicScene {
         this.InitialisePhysics(new CannonJSPlugin());
         // create the terrain
         this.CreateGround();
+        // set up the xr capabilities
+        this.SetupXR();
     }
 
     /**
@@ -69,8 +77,9 @@ export class BasicScene {
     }
 
     private async CreateGround() {
-        let terrain : Object = await CreateEnvironment(this.scene);
-        this.ground = terrain['mesh'];
+        this.terrain = await CreateEnvironment(this.scene);
+        console.log(this.terrain);
+        this.ground = this.terrain['mesh'];
         // loading finished
         this.initialLoadScreen.HideLoadingScreen();
     }
@@ -120,6 +129,12 @@ export class BasicScene {
                     break;
             }
         }
+    }
+
+    private async SetupXR() {
+        // initialise XR support
+        this.xrSupport = await XRSetup(this.scene, this.ground);
+        
     }
 
     /**

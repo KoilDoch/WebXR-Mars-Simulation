@@ -11,11 +11,11 @@ import { FreeCamera , Vector3 } from "@babylonjs/core";
 
 export function CreateController(scene) {
     // create a camera for the first person view
-    const camera = new FreeCamera("FreeCamera", new Vector3(0,30,0), scene);
+    const camera = new FreeCamera("FreeCamera", new Vector3(0,-50,0), scene);
 
     camera.applyGravity = true;
     camera.checkCollisions = true;
-    //camera.ellipsoid = new Vector3(1,1,1);
+    camera.ellipsoid = new Vector3(1,5,1);
     
     // controller inputs
     camera.keysUp.push(87);     // forward [W]
