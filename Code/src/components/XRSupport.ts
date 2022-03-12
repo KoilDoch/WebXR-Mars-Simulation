@@ -17,11 +17,14 @@ import {PhysicsImpostor, WebXRFeatureName} from "@babylonjs/core";
 export async function XRSetup(scene, floor) {
     
     try{
-        const xr = await scene.createDefaultXRExperienceAsync({
-            floorMeshes: [floor],
-        });
 
-        
+        const xr = await scene.createDefaultXRExperienceAsync({
+            floorMeshes: [floor]
+        });        
+
+        xr.baseExperience.onInitialXRPoseSetObservable.add((param) => {
+            console.log(param);
+        });
 
         return new Promise((res) => {
             
