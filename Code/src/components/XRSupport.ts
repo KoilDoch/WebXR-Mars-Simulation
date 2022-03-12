@@ -22,7 +22,9 @@ export async function XRSetup(scene, floor) {
             floorMeshes: [floor]
         });        
 
+        // observable for repositioning camera when xr session is started
         xr.baseExperience.onInitialXRPoseSetObservable.add((param) => {
+            // currently does nothing, kept for future purpose after testing done
             console.log(param);
         });
 

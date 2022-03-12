@@ -76,10 +76,22 @@ export class BasicScene {
         this.light.intensity = 0.5;
     }
 
+    /**
+     * Creates the dynamic terrain object and with that the ground mesh
+     */
     private async CreateGround() {
         this.terrain = await CreateEnvironment(this.scene);
         console.log(this.terrain);
         this.ground = this.terrain['mesh'];
+
+        // _terrainCamera sets the camera used to control generation of the terrain
+        // this sets a functions that changes the camera used to the xrCamera when xr is init
+        this.scene.onActiveCameraChanged.add((param) => {
+            if(this.scene._activeCamera == this.xrSupport.baseExperience.camera){
+                this.terrain._terrainCamera = this.xrSupport.baseExperience.camera;
+            }
+        });
+
         // loading finished
         this.initialLoadScreen.HideLoadingScreen();
     }
@@ -134,7 +146,7 @@ export class BasicScene {
     private async SetupXR() {
         // initialise XR support
         this.xrSupport = await XRSetup(this.scene, this.ground);
-        
+        console.log(this.xrSupport);
     }
 
     /**
